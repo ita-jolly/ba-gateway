@@ -109,6 +109,5 @@ def update_bil_status(nummerplade):
     return make_response(response.json(), response.status_code)
 
 
-
 if __name__ == '__main__':
     app.run()
