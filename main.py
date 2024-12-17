@@ -18,7 +18,72 @@ SKADER_SERVICE_URL = os.getenv('SKADER_SERVICE_URL')
 
 @app.route('/')
 def index():
-  return "Welcome to API"
+    endpoints = [
+        {
+            "path": "/apidocs",
+            "method": "GET",
+            "description": "Endpoint documentation"
+        },
+        {
+            "path": "/skader",
+            "method": "GET",
+            "description": "Get skader"
+        },
+        {
+            "path": "/skader",
+            "method": "POST",
+            "description": "Create skade"
+        },
+        {
+            "path": "/aftaler",
+            "method": "GET",
+            "description": "Get all aftaler"
+        },
+        {
+            "path": "/aftaler",
+            "method": "POST",
+            "description": "Create a new aftale"
+        },
+        {
+            "path": "/kunder",
+            "method": "GET",
+            "description": "Get kunder"
+        },
+        {
+            "path": "/kunder/<string:cpr>",
+            "method": "GET",
+            "description": "Get kunde by CPR"
+        },
+        {
+            "path": "/kunder",
+            "method": "POST",
+            "description": "Create kunde"
+        },
+        {
+            "path": "/biler",
+            "method": "GET",
+            "description": "Get biler"
+        },
+        {
+            "path": "/biler/udlejet",
+            "method": "GET",
+            "description": "Get udlejet biler"
+        },
+        {
+            "path": "/biler/udlejet/total",
+            "method": "GET",
+            "description": "Get total udlejet biler"
+        }
+    ]
+    return jsonify({
+        "Service": "ba-biler Microservice",
+        "Available endpoints": endpoints
+    })
+
+
+###########
+# SKADER  #
+###########
 
 @app.route('/skader', methods=['GET'])
 @swag_from('swagger/get_skader.yml')
@@ -82,6 +147,10 @@ def create_kunde():
     return make_response(response.json(), response.status_code)
 
 
+#################################
+########### BILER ##############
+#################################
+
 @app.route('/biler', methods=['GET'])
 @swag_from('swagger/get_biler.yml')
 def get_biler():
@@ -101,12 +170,7 @@ def get_udlejet_total():
     response = requests.get(f"{BILER_SERVICE_URL}/biler/udlejet/total")
     return make_response(response.json(), response.status_code)
 
-@app.route('/biler/<string:nummerplade>', methods=['PATCH'])
-@swag_from('swagger/update_bil_status.yml')
-def update_bil_status(nummerplade):
-    data = request.json
-    response = requests.patch(f"{BILER_SERVICE_URL}/biler/{nummerplade}", json=data)
-    return make_response(response.json(), response.status_code)
+
 
 
 if __name__ == '__main__':
