@@ -1,11 +1,10 @@
-tags:
-  - aftaler
 summary: Create a new aftale.
 description: Creates a new aftale in the database after validating data with external microservices. Nummerplade and CPR should exist in the biler and kunder databases respectively.
 parameters:
-  - in: body
-    description: JSON object containing the aftale details.
+  - name: body
+    in: body
     required: true
+    description: JSON object containing the aftale details.
     schema:
       type: object
       properties:
@@ -27,6 +26,8 @@ parameters:
           format: date
           example: "2023-12-10"
 
+tags:
+  - aftaler
 responses:
   201:
     description: Aftale created successfully.
